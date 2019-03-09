@@ -66,8 +66,6 @@ public class ProductController {
     }
 
 
-
-
     //ajouter un produit
     @PostMapping(value = "/Produits")
 
@@ -112,8 +110,7 @@ public class ProductController {
     }
 
     @ApiOperation(value = "Cette methodes pour calculer la marge d'un Produit")
-    @GetMapping(value ="/AdminProduits/" )
-
+    @GetMapping(value ="/Produits/AdminProduits/" )
     public List<String> calculerMargeProduit(){
 
         return  productDao.findAll().stream().map(product ->{
@@ -128,7 +125,7 @@ public class ProductController {
     @ApiOperation(value = "trier Les Produits Par Ordre Alphabetique")
     @GetMapping(value ="/Produits/trierProduitsParOrdreAlphabetique/" )
     public List<Product> trierProduitsParOrdreAlphabetique(){
-        return productDao.findAllByIdIsNotNullOrderByNomAsc();//.findAll().stream().sorted(Comparator.comparing(Product::getNom)).collect(Collectors.toList());
+        return productDao.findAllByIdIsNotNullOrderByNomAsc();  //.findAll().stream().sorted(Comparator.comparing(Product::getNom)).collect(Collectors.toList());
     }
 
 
