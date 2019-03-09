@@ -122,6 +122,12 @@ public class ProductController {
     }
 
 
+    @ApiOperation(value = "trier Les Produits Par Ordre Alphabetique")
+    @GetMapping(value ="/Produits/trierProduitsParOrdreAlphabetique/" )
+    public List<Product> trierProduitsParOrdreAlphabetique(){
+        return productDao.findAllByIdIsNotNullOrderByNomAsc();//.findAll().stream().sorted(Comparator.comparing(Product::getNom)).collect(Collectors.toList());
+    }
+
 
 
 
