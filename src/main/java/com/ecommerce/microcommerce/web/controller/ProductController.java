@@ -16,7 +16,10 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 
 @Api( description="API pour es opérations CRUD sur les produits.")
@@ -69,9 +72,11 @@ public class ProductController {
 
     public ResponseEntity<Void> ajouterProduit(@Valid @RequestBody Product product) {
 
+        //Product productAdded = product.getPrix() >0 ? productDao.save(product):null;
+
         Product productAdded =  productDao.save(product);
 
-        if (productAdded == null)
+        if (productAdded == null )
             return ResponseEntity.noContent().build();
 
         URI location = ServletUriComponentsBuilder
@@ -102,6 +107,23 @@ public class ProductController {
 
         return productDao.chercherUnProduitCher(400);
     }
+
+    @ApiOperation(value = "Cette methodes pour calculer la marge d'un Produit")
+    @GetMapping(value ="/AdminProduits/" )
+
+    public List<String> calculerMargeProduit(){
+
+        return  productDao.findAll().stream().map(product ->{
+            double marge= product.getPrix()-product.getPrixAchat();
+            String resultat =product.toString()+":"+marge;
+            return resultat.toString();
+
+        }).collect(Collectors.toList());
+    }
+
+
+
+
 
 
 
