@@ -2,6 +2,7 @@ package com.ecommerce.microcommerce.web.controller;
 
 import com.ecommerce.microcommerce.dao.ProductDao;
 import com.ecommerce.microcommerce.model.Product;
+import com.ecommerce.microcommerce.web.exceptions.PrixVenteProduitException;
 import com.ecommerce.microcommerce.web.exceptions.ProduitIntrouvableException;
 import com.fasterxml.jackson.databind.ser.FilterProvider;
 import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
@@ -72,7 +73,9 @@ public class ProductController {
 
     public ResponseEntity<Void> ajouterProduit(@Valid @RequestBody Product product) {
 
-        //Product productAdded = product.getPrix() >0 ? productDao.save(product):null;
+        if (product.getPrix()<=0) {
+            throw new PrixVenteProduitException("le prix de vente ne doit pas étre égal ou inférieur de  zéro");
+        }
 
         Product productAdded =  productDao.save(product);
 
@@ -127,8 +130,6 @@ public class ProductController {
     public List<Product> trierProduitsParOrdreAlphabetique(){
         return productDao.findAllByIdIsNotNullOrderByNomAsc();//.findAll().stream().sorted(Comparator.comparing(Product::getNom)).collect(Collectors.toList());
     }
-
-
 
 
 
